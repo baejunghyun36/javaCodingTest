@@ -7,7 +7,6 @@ public class Main_2839 {
 	static int n; 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in); 	
-		
 		int result=0; 
 		n = sc.nextInt(); 
 		result += n/15*3; 
