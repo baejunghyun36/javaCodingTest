@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main_16926 {
@@ -19,9 +21,12 @@ public class Main_16926 {
 	static StringBuilder sb ; 
 	
 	public static void main(String[] args) throws IOException {
-		
 	
+		
+		
 		input(); 
+		
+		
 		
 		for(int i=0; i<rotate; i++) leftRotate(0,0, m-1, n-1);
 		
