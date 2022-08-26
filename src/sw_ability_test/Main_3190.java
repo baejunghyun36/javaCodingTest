@@ -17,12 +17,11 @@ public class Main_3190 {
 	static int [][]map; 
 	static int [][]visited; 
 	static List <int []> list; 
+	//위 오른쪽 아래쪽 왼쪽 	
 	static int [] dx = {0, 1, 0, -1}; 
-	static int [] dy = {-1, 0, 1, 0}; //위 오른쪽 아래쪽 왼쪽 	
+	static int [] dy = {-1, 0, 1, 0}; 
 	static Map<Integer, Character> m; 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		StringTokenizer st = new StringTokenizer(br.readLine()); 
 		
@@ -53,15 +52,14 @@ public class Main_3190 {
 		list.add(new int [] {0,0}); 
 		visited[0][0] = 1; 
 		map[0][0] = 1; 
-		int y, x; 
-		y = 0; x = 0; 
-		int dir = 1; //오른쪽 
+		int y = 0; 
+		int x = 0; 
+		int dir = 1; 
 		int second=0; 
 		while(true) {
 			second++; 
 			y+=dy[dir]; 
 			x+=dx[dir]; 
-			//System.out.println("y : "+ y + "  x : "+ x);
 			if(y<0||y>=N||x<0||x>=N)break; 
 			if(visited[y][x]==1)break; 
 			
@@ -70,7 +68,7 @@ public class Main_3190 {
 				visited[y][x] =1; 
 				map[y][x] = 1; 
 			}
-			else {//사과 없을 때 
+			else { //사과 없을 때 
 				list.add(new int [] {y,x}); 
 				visited[y][x] = 1; 
 				int [] yx = list.get(0); 
@@ -80,11 +78,11 @@ public class Main_3190 {
 			
 			if(m.get(second)!=null) {
 				if(m.get(second)=='D') {
-					dir+=1;
+					dir+=1;				
 					if(dir==4)dir=0; 
 				}
 				else if(m.get(second)=='L') {
-					dir-=1; 
+					dir-=1; 					
 					if(dir==-1)dir=3; 
 				}
 			}			
