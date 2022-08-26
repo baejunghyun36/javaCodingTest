@@ -63,7 +63,6 @@ public class Main_10026 {
 		}	
 		sb.append(cnt); 
 		System.out.println(sb.toString());
-		
 	}
 	
 	static void bfs(char c) {
