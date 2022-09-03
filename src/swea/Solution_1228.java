@@ -1,4 +1,4 @@
-package swea.d3;
+package swea;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,4 +1,4 @@
-package swea.d2;
+package swea;
 import java.util.*;
 
 //1959. 두 개의 숫자열
