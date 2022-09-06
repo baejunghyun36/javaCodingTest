@@ -16,6 +16,8 @@ public class Solution_카카오프렌즈컬러링북 {
 	        N= n; 
 	        visited = new int [m][n]; 
 	        
+	        
+	        
 	        for(int i=0; i<m; i++){
 	            for(int j=0; j<n; j++){
 	                if(picture[i][j]==0)continue; 

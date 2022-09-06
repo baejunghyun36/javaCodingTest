@@ -10,14 +10,12 @@ public class Solution_1차프렌즈4블록 {
 	static int [] dy = {0, 0, 1, 1}; 
 	
 	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {		
 
 		String[] board = new String [] {"TTTANT", "RRFACC", "RRRFCC",
 				"TRRRAA","TTMMMF", "TMMTTJ"}; 
 		int m = 6; 
-		int n = 6; 
-		
+		int n = 6; 		
 		System.out.println(Sol(m,n, board));;
 	
 		

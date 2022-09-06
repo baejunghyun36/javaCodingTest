@@ -13,7 +13,7 @@ public class Solution_최소직사각형  {
         info = sizes; 
         Arrays.sort(info); 
         answer = 987654321; 
-     //  dfs(0, info[0][0], info[0][1]); 
+
         return answer;
     }
     
