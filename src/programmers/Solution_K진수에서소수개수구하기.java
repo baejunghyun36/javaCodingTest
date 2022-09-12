@@ -6,6 +6,8 @@ import java.util.*;
 class Solution_K진수에서소수개수구하기 {
 
     public int solution(int n, int k) {
+    	
+    	
         int result = 0; 
 		StringBuilder sb = new StringBuilder(); 
 		while(n>0) {			
