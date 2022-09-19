@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution_코드트리_꼬리잡기놀이 {
@@ -17,19 +18,23 @@ public class Solution_코드트리_꼬리잡기놀이 {
 	static int [] dx = {0,0,1,-1};
 	static int [] dy = {1,-1,0,0}; 
 	static int [][] visited; 
-	static Team [] team; 
+	static Team [] team;
+	static int roundCnt; 
+	static int [][] teamMap; 
 	public static void main(String[] args) throws IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)) ; 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out)); 
 		StringBuilder sb = new StringBuilder(); 
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
+	
 		N = Integer.parseInt(st.nextToken());
 		teamCnt = Integer.parseInt(st.nextToken()); 
-		K = Integer.parseInt(st.nextToken()); 
+		K = Integer.parseInt(st.nextToken());  //라운드 수 
+		teamMap  = new int [N][N]; 
 		map = new int [N][N]; 
 		visited = new int [N][N]; 
+		roundCnt = 1; 
 		
 		for(int i=0; i<N; i++){
 			st = new StringTokenizer(br.readLine()); 
@@ -38,19 +43,28 @@ public class Solution_코드트리_꼬리잡기놀이 {
 			}
 		}
 
+
 		team = new Team[teamCnt]; 
 		int index = 0; 
 		
 		for(int i=0; i<N; i++) {
 			for(int j=0; j<N; j++) {
 				if(map[i][j] ==1) {
+					teamMap[i][j] = index+1; 
 					team[index] = new Team(0, 0, true, new ArrayList<>()); 
 					visited[i][j] = 1; 
 					team[index].list.add(new int [] {i,j}); 					
-					dfs(team[index++], i, j, 1 ); 
+					dfs(team[index], i, j, 1 );
+					
+					ArrayList <int []>a = team[index].list; 
+				
+					for(int [] bb : a) {
+						System.out.println(bb[0]+" "+bb[1] + team[index].direction);
+						System.out.println("head: "+ team[index].head + " tail : "+ team[index].tail);
+					}
+					index++; 
 				}
 			}
-			
 		}
 		
 		for(int i = 0; i<teamCnt; i++) {
@@ -70,10 +84,17 @@ public class Solution_코드트리_꼬리잡기놀이 {
 			if(ny<0||ny>=N||nx<0||nx>=N)continue; 
 			if(map[ny][nx] == 0)continue; 			
 			if(visited[ny][nx] == 1)continue; 
+			if(t.list.size()==1) {
+				if(t.list.get(0)[0]==ny&&t.list.get(0)[1]<nx|| //왼쪽
+						t.list.get(0)[1]==nx&&t.list.get(0)[0]<ny)t.direction = false; 
+				else t.direction = true; 
+			}
 			t.list.add(new int [] {ny, nx}); 
 			visited[ny][nx] = 1; 
 			if(map[ny][nx] == 3) t.tail = loc; 
 			dfs(t, ny, nx, loc+1); 
+			
+			
 		}
 
 	}
