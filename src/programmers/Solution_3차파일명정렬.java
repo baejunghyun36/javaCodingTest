@@ -9,7 +9,7 @@ public class Solution_3차파일명정렬 {
 	static List <Node> list; 
 	public static void solution(String[] files) {
 		// TODO Auto-generated method stub
-		System.out.println(1);
+	
 
 list = new ArrayList<>(); 
 		
