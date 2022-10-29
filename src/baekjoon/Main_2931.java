@@ -78,7 +78,10 @@ public class Main_2931 {
 					break out; 
 				}
 			}
-		}		
+		}
+		
+		
+		
 		sb.append(yx[0]+1).append(" ").append(yx[1]+1).append(" ").append(cmp[map[yx[0]][yx[1]]]); 
 		bw.write(sb.toString());
 		bw.flush();
