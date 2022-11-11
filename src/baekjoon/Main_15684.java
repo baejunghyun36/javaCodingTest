@@ -73,15 +73,13 @@ public class Main_15684{
 			return; 
 		}
 		for(int i=start; i<list.size(); i++) {
-			if(visited[i]==1)continue; 			
+			
 			int y = list.get(i)[0]; 
 			int x = list.get(i)[1]; 
 			if(x-1>=1&&map[y][x-1]==1)continue; 
-			if(x+1<=N&&map[y][x+1]==1)continue; 
-			visited[i] = 1; 
+			if(x+1<=N&&map[y][x+1]==1)continue;  
 			map[y][x] = 1; 
-			backTracking(level, cnt+1, i); 
-			visited[i] = 0; 
+			backTracking(level, cnt+1, i+1);  
 			map[y][x] = 0; 			
 		}
 	}
