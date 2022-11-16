@@ -26,8 +26,7 @@ public class Main_5427 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out)); 
 		StringBuilder sb = new StringBuilder(); 
-		String s = "hi hi hi"; 
-		StringTokenizer st = new StringTokenizer(s, " "); 
+		StringTokenizer st = null; 
 		int testCase = Integer.parseInt(br.readLine()); 
 		while(testCase-->0) {
 			flag = false; 
@@ -98,7 +97,6 @@ public class Main_5427 {
 	}
 	
 	static void bfsFire() {
-
 		
 		int size = fire.size(); 
 		while(size-->0) {
