@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Solution_낚시터자리잡기 {
@@ -27,6 +29,7 @@ public class Solution_낚시터자리잡기 {
 		StringTokenizer st = new StringTokenizer(br.readLine()); 
 		
 		testCase = Integer.parseInt(st.nextToken()); 
+		Map <Integer> map = new HashMap<>(); 
 		for(int t = 1; t<=testCase; t++) {
 			
 			
