@@ -14,6 +14,8 @@ class 풍선터뜨리기 {
     for(int i=1; i<a.length; i++) dp1[i] = Math.min(dp1[i-1], a[i]);
     for(int i=a.length-2; i>=0; i--) dp2[i] = Math.min(dp2[i+1], a[i]);
 
+    ArrayList list = new ArrayList<>();
+    
     if(a.length<=2)answer = a.length;
     else{
       answer = 2;
