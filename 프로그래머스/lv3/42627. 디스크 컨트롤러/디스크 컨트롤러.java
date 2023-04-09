@@ -4,13 +4,12 @@ class Solution {
     public int solution(int[][] jobs) {
         int answer = 0;
         Arrays.sort(jobs, (o1, o2) -> {
-            if (o1[0] == o2[0]) {
-                return o1[1] - o2[1];
-            } else {
-                return o1[0] - o2[0];
-            }
-         });
-        pq = new PriorityQueue<>(); 
+            if(o1[0]==o2[0])return o1[1] - o2[1]; 
+            return o1[0]-o2[0]; 
+        });
+        pq = new PriorityQueue<>((o1, o2)->{
+            return o1.workingTime - o2.workingTime; 
+        }); 
         
         int finishTime = jobs[0][0] + jobs[0][1]; 
         int time = finishTime - jobs[0][0]; 
@@ -39,7 +38,7 @@ class Solution {
         return time/jobs.length;
     }
     
-    static class Job implements Comparable<Job> {
+    static class Job  {
         
         int startTime; 
         int workingTime; 
@@ -49,9 +48,7 @@ class Solution {
             this.workingTime = wt; 
         }
         
-        public int compareTo(Job job){
-            return this.workingTime - job.workingTime; 
-        }
+      
         
     }
     
