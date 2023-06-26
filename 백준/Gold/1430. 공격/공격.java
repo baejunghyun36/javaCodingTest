@@ -62,7 +62,6 @@ public class Main {
                 for(int i=0; i<n; i++){
                     if(visited[i] == 1)continue;
                     Point nextPoint = pointList.get(i);
-                    if(curPoint.y==nextPoint.y&&curPoint.x==nextPoint.x)continue;
                     double c = Math.pow(Math.abs(curPoint.y-nextPoint.y),2) + Math.pow(Math.abs(curPoint.x - nextPoint.x),2);
                     if(c<=r){
                         visited[i]=1;
