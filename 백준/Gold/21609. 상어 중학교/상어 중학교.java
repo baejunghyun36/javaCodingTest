@@ -5,15 +5,18 @@ public class Main {
 
     static int n, m;
     static int [][] map;
-    static int[] dx = {0, 0, 1, -1};
-    static int[] dy = {1, -1, 0, 0};
     static int [][] temp;
     static boolean flag;
     static Queue<int []> q;
-    static int [][] visited;
     static Queue <BlockGroup> blockGroupList;
     static Queue <int []> removeQueue;
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
+    static int [][] visited;
+    static int answer;
+
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
@@ -21,24 +24,20 @@ public class Main {
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-
         map =new int[n][n];
         temp = new int[n][n];
 
         for(int i=0; i<n; i++){
             st = new StringTokenizer(br.readLine());
-            for(int j=0; j<n; j++){
-                map[i][j] = Integer.parseInt(st.nextToken());
-            }
+            for(int j=0; j<n; j++) map[i][j] = Integer.parseInt(st.nextToken());
         }
-        int answer = 0;
-        int value = 0;
 
         while(true){
 
             flag = false;
             blockGroupList = new PriorityQueue<>();
             q = new LinkedList<>();
+
             //블록 찾기
             for(int i=0; i<n; i++){
                 for(int j=0; j<n; j++){
@@ -49,14 +48,15 @@ public class Main {
                    }
                 }
             }
+
             if(flag==false)break;
+
             temp = new int[n][n];
-            BlockGroup group = blockGroupList.poll();
+            visited = new int[n][n];
 
             removeQueue = new LinkedList<>();
+            BlockGroup group = blockGroupList.poll();
             removeQueue.add(new int[]{group.standardY, group.standardX});
-
-            visited = new int[n][n];
             visited[group.standardY][group.standardX] = 1;
 
             bfs(map[group.standardY][group.standardX], group.standardY, group.standardX, 1);
@@ -99,7 +99,6 @@ public class Main {
                 q.add(new int[]{ny, nx});
             }
         }
-
         if (group.size >= 2) {
             flag = true;
             blockGroupList.add(group);
@@ -143,17 +142,6 @@ public class Main {
             }
         }
         map = temp;
-    }
-
-    static class Block {
-
-        int y;
-        int x;
-
-        public Block(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
     }
 
     static class BlockGroup implements Comparable<BlockGroup> {
