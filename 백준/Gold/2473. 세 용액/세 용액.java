@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.GenericDeclaration;
 import java.util.*;
 
 public class Main {
@@ -22,26 +23,11 @@ public class Main {
         answer = new long[3];
 
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+            arr[i] = Long.parseLong(st.nextToken());
         }
 
         Arrays.sort(arr);
-        out:for(int i=0; i<n; i++){
-            for (int j = 0; j < n; j++) {
-                if(i==j)continue;
-                long a = arr[i];
-                long b = arr[j];
-                visited[i] = visited[j] = 1;
-                int index = binarySearch(a+b);
-                if(index!=-1){
-                    answer[0] = arr[i];
-                    answer[1] = arr[j];
-                    answer[2] = arr[index];
-                }
-                visited[i] = visited[j] = 0;
-                if(minNumber==0)break out;
-            }
-        }
+        search();
         Arrays.sort(answer);
         for (int i = 0; i < 3; i++) {
             sb.append(answer[i]).append(" ");
@@ -53,30 +39,31 @@ public class Main {
     }
 
 
-    static int binarySearch(long sum){
+    static void search(){
 
         int l = 0;
         int h = n-1;
-        boolean flag = false;
-        int index = 0;
-        out:while (l <= h) {
-            int mid = (l+h)/2;
-            while(l<=mid&&visited[mid]==1){
-                mid--;
+        int mid = l+1;
+
+        while(true){
+
+            long sum = arr[l] + arr[h] + arr[mid];
+            if (minNumber > Math.abs(sum)|| sum==0) {
+                minNumber = Math.abs(sum);
+                answer[0] = arr[l];
+                answer[1] = arr[h];
+                answer[2] = arr[mid];
+                if(sum==0) return;
             }
-            if(mid < l)break out;
-            if(minNumber>Math.abs(sum+arr[mid])){
-                flag = true;
-                index = mid;
-                minNumber = Math.abs(sum + arr[mid]);
-                h= mid-1;
+            if(sum>0) h--;
+            else if(sum<0) mid++;
+            if (mid == h) {
+                l++;
+                mid = l+1;
+                h = n-1;
             }
-            if(sum+arr[mid]>0) h = mid - 1;
-            else l = mid + 1;
+            if(l+1 >=h)break ;
+
         }
-        if(flag) return index;
-        return -1;
-
     }
-
 }
