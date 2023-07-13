@@ -8,7 +8,7 @@ public class Main {
     static int [] arr;
     public static void main(String[] args) throws IOException {
 
-        //https://blog.naver.com/ndb796/221282210534 개념 공부
+        //https://blog.naver.com/ndb796/221282210534 개념 공부 
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -17,7 +17,7 @@ public class Main {
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        tree = new int[n*4];
+        tree = new int[(int)Math.pow(2, 19)];
         arr = new int[n+1];
 
         for(int i=1; i<=n; i++){
