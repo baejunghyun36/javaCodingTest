@@ -1,9 +1,13 @@
 import java.io.*;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
 
+    //두번째 풀이 - 스택없이  
+    //answer type long
+    
+    static int [] dp;
+    static int [] index;
     static int [] arr;
     static int n;
     static long answer;
@@ -15,20 +19,17 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         n = Integer.parseInt(st.nextToken());
+
+        dp = new int[n];
+        index = new int[n];
         arr = new int[n];
+
+        dp[n-1] = 0;
+        index[n-1] = -1;
+
         for(int i=0; i<n; i++) arr[i] = Integer.parseInt(br.readLine());
-
-        Stack<Node> stack = new Stack<>();
-
-        for(int i=n-1; i>=0; i--){
-            int x = arr[i];
-            int cnt = 0;
-            while (!stack.isEmpty() && x > stack.peek().height) {
-                cnt+=stack.pop().cnt+1;
-            }
-            stack.add(new Node(x, cnt));
-            answer+=cnt;
-        }
+        for(int i=n-2; i>=0; i--) dfs(i, i+1);
+        for(int i=0; i<n; i++) answer+=dp[i];
 
         sb.append(answer);
 
@@ -38,13 +39,16 @@ public class Main {
         br.close();
     }
 
-    static class Node{
-        int height;
-        int cnt;
+    static void dfs(int curIndex, int prev){
 
-        public Node(int height, int cnt){
-            this.height = height;
-            this.cnt = cnt;
+        if(prev==-1){
+            index[curIndex] = -1;
+            return;
+        }
+        if(arr[curIndex]<=arr[prev]) index[curIndex] = prev;
+        else{
+            dp[curIndex] += dp[prev] +1;
+            dfs(curIndex, index[prev]);
         }
     }
 
