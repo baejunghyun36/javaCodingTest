@@ -3,7 +3,9 @@ import java.util.*;
 
 public class Main {
     static int n;
-    static List<Integer> inOrder, postOrder, preOrder;
+//    static List<Integer> inOrder, postOrder,
+    static List<Integer> preOrder;
+    static int [] inOrder, postOrder;
 
 
     public static void main(String[] args) throws IOException {
@@ -13,14 +15,18 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         n = Integer.parseInt(st.nextToken());
-        inOrder = new ArrayList<>();
+ /*       inOrder = new ArrayList<>();
         postOrder = new ArrayList<>();
+        preOrder = new ArrayList<>();*/
+
+        inOrder = new int[n];
+        postOrder = new int[n];
         preOrder = new ArrayList<>();
 
         st = new StringTokenizer(br.readLine());
-        while(st.hasMoreTokens()) inOrder.add(Integer.parseInt(st.nextToken()));
+        for (int i = 0; i < n; i++) inOrder[i] = Integer.parseInt(st.nextToken());
         st = new StringTokenizer(br.readLine());
-        while(st.hasMoreTokens()) postOrder.add(Integer.parseInt(st.nextToken()));
+        for (int i = 0; i < n; i++) postOrder[i] = Integer.parseInt(st.nextToken());
 
         dfs(0, n-1, 0, n-1);
 
@@ -37,12 +43,12 @@ public class Main {
 
 //        System.out.println("아니 왔짜나 ㅡㅡㅡ ");
         if(inEnd<inStart||postEnd<postStart)return;
-        int rootNumber = postOrder.get(postEnd);
+        int rootNumber = postOrder[postEnd];
         preOrder.add(rootNumber);
         int rootIndex = -1;
         int cnt = 0;
         for(int i=inStart; i<=inEnd; i++){
-            if(rootNumber == inOrder.get(i)){
+            if(rootNumber == inOrder[i]){
                 rootIndex = i;
                 break;
             }
