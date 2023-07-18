@@ -6,7 +6,7 @@ public class Main {
 //    static List<Integer> inOrder, postOrder,
     static List<Integer> preOrder;
     static int [] inOrder, postOrder;
-
+    static Map<Integer, Integer> inOrderIndex;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,12 +19,12 @@ public class Main {
         postOrder = new ArrayList<>();
         preOrder = new ArrayList<>();*/
 
+        inOrderIndex = new HashMap<>();
         inOrder = new int[n];
         postOrder = new int[n];
         preOrder = new ArrayList<>();
-
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) inOrder[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < n; i++) inOrderIndex.put(Integer.parseInt(st.nextToken()), i);
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) postOrder[i] = Integer.parseInt(st.nextToken());
 
@@ -40,20 +40,10 @@ public class Main {
 
     static void dfs(int inStart, int inEnd, int postStart, int postEnd) {
 
-
-//        System.out.println("아니 왔짜나 ㅡㅡㅡ ");
         if(inEnd<inStart||postEnd<postStart)return;
-        int rootNumber = postOrder[postEnd];
-        preOrder.add(rootNumber);
-        int rootIndex = -1;
-        int cnt = 0;
-        for(int i=inStart; i<=inEnd; i++){
-            if(rootNumber == inOrder[i]){
-                rootIndex = i;
-                break;
-            }
-            cnt++;
-        }
+        preOrder.add(postOrder[postEnd]);
+        int rootIndex = inOrderIndex.get(postOrder[postEnd]);
+        int cnt = rootIndex - inStart;
         dfs(inStart, rootIndex-1, postStart, postStart+cnt-1);
         dfs(rootIndex+1, inEnd, postStart+cnt, postEnd-1);
     }
