@@ -16,7 +16,7 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         n = Integer.parseInt(st.nextToken());
-        userSelections = new LinkedList[1001];
+        userSelections = new ArrayList[1001];
         candidateList = new Candidate[n + 1];
         candidateNumberToName = new HashMap<>();
         removeList = new boolean[n+1];
@@ -26,7 +26,7 @@ public class Main {
             candidateList[i] = new Candidate(i, 0);
             candidateNumberToName.put(i, name);
         }
-        for(int i=1; i<=1000; i++)  userSelections[i] = new LinkedList<>();
+        for(int i=1; i<=1000; i++)  userSelections[i] = new ArrayList<>();
         String line;
 
         while((line = br.readLine()) != null && line.length() > 0) {
@@ -88,3 +88,26 @@ public class Main {
         }
     }
 }
+
+
+/*
+*
+
+5
+a
+b
+c
+d
+e
+1 2 3 4 5
+1 2 3 4 5
+2 3 1 5 4
+2 3 1 5 4
+3 4 5 1 2
+3 4 5 1 2
+5 1 2 3 4
+4 3 1 2 5
+
+*
+*
+* */
