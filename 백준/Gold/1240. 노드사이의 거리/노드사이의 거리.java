@@ -3,10 +3,12 @@ import java.util.*;
 
 public class Main {
 
+    //두번째 방식  - dfs
     static int n, m;
     static List<Node> [] list;
     static PriorityQueue<Node> pq;
     static int [] dist;
+    static int [] visited;
     static final int inf = 987654321;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,7 +34,10 @@ public class Main {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
 
-            dijk(a, b);
+            dist = new int[n + 1];
+            Arrays.fill(dist, inf);
+            dist[a] = 0;
+            dfs(a, b, 0);
             sb.append(dist[b]).append("\n");
         }
         bw.write(sb.toString());
@@ -41,27 +46,21 @@ public class Main {
         br.close();
 
     }
-    static void dijk(int start, int endPoint){
-        dist = new int[n + 1];
-        Arrays.fill(dist, inf);
-        pq = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
-        pq.add(new Node(start, 0));
-        dist[start] = 0;
+    static void dfs(int a, int b, int cost){
 
-        while (!pq.isEmpty()) {
-            Node node = pq.poll();
-            int cur = node.next;
-            if(cur==endPoint)return; 
-            for (int i = 0; i < list[cur].size(); i++) {
-                Node next= list[cur].get(i);
-                if(dist[next.next]!=inf)continue;
-                if (dist[next.next] > dist[cur] + next.cost) {
-                   dist[next.next] = dist[cur] + next.cost;
-                   pq.add(next);
-                }
+        if(b==a){
+            return;
+        }
+
+        for (int i = 0; i < list[a].size(); i++) {
+            Node next = list[a].get(i);
+            if (dist[next.next] > next.cost + cost) {
+                dist[next.next] = next.cost + cost;
+                dfs(next.next, b, dist[next.next]);
             }
         }
     }
+
 
     static class Node {
 
