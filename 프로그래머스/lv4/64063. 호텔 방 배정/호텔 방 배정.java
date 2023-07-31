@@ -8,10 +8,8 @@ class Solution {
         map = new HashMap<>(); 
         
         for(int i=0; i<room_number.length; i++){
-            a = 0; 
             long num = room_number[i]; 
-            dfs(num);
-            answer[i] = a; 
+            answer[i] = dfs(num)-1; 
         }
         return answer;
     }
@@ -20,9 +18,15 @@ class Solution {
         
         if(map.getOrDefault(num, 0l)==0){
             map.put(num, num+1); 
-            a = num; 
+      
             return num+1; 
         }
-        return map.put(num, dfs(map.get(num))); 
+        
+        long x = dfs(map.get(num));
+        // long x = map.put(num,dfs(map.get(num))); 
+        map.put(num,x); 
+ 
+        return x; 
+
     }
 }
