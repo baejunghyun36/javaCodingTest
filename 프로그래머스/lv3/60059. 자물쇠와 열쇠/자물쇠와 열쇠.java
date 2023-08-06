@@ -23,16 +23,11 @@ class Solution {
                 }
             }
         }
-        
-        // n = lock.length; 
         n = lock.length; 
-
-        
         for(int i=0; i<4; i++){
            if(check())return true;  
             rotate(); 
         }
-        
         return false;
     }
     
@@ -49,9 +44,7 @@ class Solution {
     }
     
     static boolean check(){
-        //m은 키 길이
-        //n은 자물쇠 길이
-        
+
         for(int i=0; i<n-m+1; i++){
             for(int j=0; j<n-m+1; j++){
                 int cnt = 0; 
@@ -61,10 +54,7 @@ class Solution {
                         if(lock[k][l]==1234567&&key[k-i][l-j]==1)cnt++;  
                     }
                 }
-                if(cnt==vacantSpace){
-     
-                    return true; 
-                }
+                if(cnt==vacantSpace) return true; 
             }
         }
         return false; 
