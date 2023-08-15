@@ -33,10 +33,10 @@ public class Main {
             }
             int next = listIndex[c];
             next = list[c].get(next);
-            if(curIndex>next){
+            if(curIndex>=next){
                 cnt++;
             }
-            curIndex = next+1;
+            curIndex = next;
             listIndex[c] = (listIndex[c]+1)%list[c].size();
         }
         sb.append(cnt);
