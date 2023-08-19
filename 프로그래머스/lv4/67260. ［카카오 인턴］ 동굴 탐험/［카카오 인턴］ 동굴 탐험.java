@@ -34,7 +34,6 @@ class Solution {
     static void bfs(){
         
         ArrayList<Integer> reachableNode = new ArrayList<>(); 
-        
         while(!q.isEmpty()){
             int size = q.size(); 
             while(size-->0){                
@@ -49,17 +48,15 @@ class Solution {
                     visited[next] = 1; 
                     q.add(next); 
                     int k = key.getOrDefault(next, -1); 
-                    if(k!=-1) {
-                        reachableNode.add(k);
-                    }                 
+                    if(k!=-1) reachableNode.add(k);
                 }
             }
             for(int i=0; i<reachableNode.size(); i++){
                 int lockNode = reachableNode.get(i); 
                 if(nodeToVisit.contains(lockNode)){
-                    reachableNode.remove(i); 
-                    nodeToVisit.remove(lockNode); 
-                    lock.remove(lockNode); 
+                    // reachableNode.remove(i); 
+                    // nodeToVisit.remove(lockNode); 
+                    // lock.remove(lockNode); 
                     i--; 
                     visited[lockNode] = 1; 
                     q.add(lockNode); 
