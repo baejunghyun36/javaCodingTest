@@ -8,11 +8,9 @@ class Solution {
         int cnt = 0; 
         yList = new ArrayList<>(); 
         while(k!=1){
- 
             yList.add(k); 
             if(k%2==0) k/=2; 
             else k = k*3+1;      
-            
             cnt++; 
         }
         yList.add(1); 
@@ -20,13 +18,9 @@ class Solution {
             int start = ranges[i][0]; 
             int end = ranges[i][1]; 
             if(end<=0) end = yList.size()-1+ranges[i][1]; 
-     
             if(start>end) answerList.add(-1.0); 
-            else if(start==end) answerList.add(0.0); 
             else{
-                int index = 0; 
                 int prevY = yList.get(start); 
-                int prevX = start; 
                 double area = 0; 
                 for(int x = start+1; x<=end; x++){
                     int y = yList.get(x); 
@@ -36,16 +30,10 @@ class Solution {
                 }
                 answerList.add(area); 
             }
- 
-            System.out.println(); 
         }
-        // System.out.println(cnt); 
+        
         double []answer = new double[answerList.size()]; 
-        for(int i=0; i<answerList.size(); i++){
-            answer[i] = answerList.get(i); 
-        }
-        
-        
+        for(int i=0; i<answerList.size(); i++) answer[i] = answerList.get(i); 
         return answer;
     }
     
