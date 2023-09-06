@@ -41,15 +41,8 @@ public class Main {
                 else info[a].add(new Edge(b, -c));
             }
 
-            boolean flag = true;
-            for (int i = 1; i <= n; i++) {
-                if (bellmanFord(i)) {
-                    sb.append("YES\n");
-                    flag = false;
-                    break ;
-                }
-            }
-            if(flag) sb.append("NO\n");
+            if(bellmanFord(1)) sb.append("YES\n");
+            else sb.append("NO\n");
 
         }
 
@@ -67,7 +60,7 @@ public class Main {
             boolean flag = false;
             for (int j = 1; j <= n; j++) {
                 for(Edge e : info[j]){
-                    if(dist[j]!=INF && dist[e.vertex] > dist[j]  + e.dist){
+                    if(dist[e.vertex] > dist[j]  + e.dist){
                         if(i==n)return true;
                         flag = true;
                         dist[e.vertex] = dist[j]  + e.dist;
