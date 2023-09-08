@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.*;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -7,18 +7,14 @@ public class Main {
     static int [] seqOfAlpa, countOfAlpa;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         seqOfAlpa = new int[n + 1];
         countOfAlpa = new int[27];
-
         backTracking(1, 1, 0, 1);
-
         System.out.println(-1);
-        br.close();
     }
 
     static void backTracking(int start, int end, int sum, int alpa){
@@ -43,7 +39,6 @@ public class Main {
         }
 
         for (int i = end; i >= start; i--) {
-
             seqOfAlpa[i] = alpa;
             countOfAlpa[alpa] = i;
             backTracking(i+1, end*2, sum+i, alpa + 1);
