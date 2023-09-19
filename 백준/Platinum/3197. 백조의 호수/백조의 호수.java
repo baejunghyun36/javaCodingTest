@@ -15,9 +15,8 @@ public class Main {
     static int number = 1;
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(br.readLine());
         m = Integer.parseInt(st.nextToken());
         n = Integer.parseInt(st.nextToken());
@@ -37,7 +36,6 @@ public class Main {
                 }
             }
         }
-
         initBfs();
 
         for (int i = 0; i < m; i++) {
@@ -53,10 +51,6 @@ public class Main {
         initParent();
         bfs();
 
-        bw.write(sb.toString());
-        bw.flush();
-        bw.close();
-        br.close();
     }
 
     static void initParent() {
@@ -78,12 +72,13 @@ public class Main {
             int size = iceQueue.size();
             while (size--> 0) {
                 Node node = iceQueue.poll();
+                int a = find(node.number);
                 for (int i = 0; i < 4; i++) {
                     int nx = node.x + dx[i];
                     int ny = node.y + dy[i];
                     if(ny<0||ny>=m||nx<0||nx>=n)continue;
+
                     if(visited[ny][nx]!=0) {
-                        int a = find(node.number);
                         int b = find(visited[ny][nx]);
                         if(a+b==3){
                             if(second>secondMap[ny][nx]) System.out.println(second-1);
@@ -93,10 +88,10 @@ public class Main {
                         if(a<=b)parent[b] = a;
                         else parent[a] = b;
                     }
-                    else if(visited[ny][nx]==0){
+                    else{
                         secondMap[ny][nx] = second;
-                        iceQueue.add(new Node(ny, nx, find(node.number)));
-                        visited[ny][nx] = find(node.number);
+                        iceQueue.add(new Node(ny, nx, a));
+                        visited[ny][nx] = a;
                     }
                 }
             }
