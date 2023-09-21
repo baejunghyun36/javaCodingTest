@@ -21,7 +21,6 @@ public class Main {
         map = new char[5][9];
         while (testCase-- > 0) {
             int number = 0;
-
             list = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 map[i] = br.readLine().toCharArray();
@@ -47,17 +46,15 @@ public class Main {
     }
 
     static void backTracking(int pinCount, int moveCount, int level){
-//        System.out.println(pinCount + " " + moveCount +" " + level);
+
         if(minCount>pinCount){
             minCount = pinCount;
             minMove = moveCount;
-        } else if (minCount == pinCount) {
+        } 
+        else if (minCount == pinCount) {
             minMove = Math.min(minMove, moveCount);
         }
-//        for (int i = 0; i < m; i++) {
-//            System.out.println(Arrays.toString(map[i]));
-//        }
-//        System.out.println();
+
         for (int i = 0; i < list.size(); i++) {
             Pin p = list.get(i);
             if(p.isExist==false)continue;
@@ -65,16 +62,14 @@ public class Main {
             int x = p.x;
 
             for (int j = 0; j < 4; j++) {
+                
                 int nx = x + dx[j];
                 int ny = y + dy[j];
                 if(ny<0||ny>=m||nx<0||nx>=n)continue;
-
                 if (map[ny][nx] >= '0' && map[ny][nx] <= '7') {
                     int mx = nx + dx[j];
                     int my = ny + dy[j];
-
                     if(my<0||my>=m||mx<0||mx>=n)continue;
-
                     if(map[my][mx]!='.') continue;
                     char prev = map[ny][nx];
                     map[y][x] = '.';
@@ -83,7 +78,6 @@ public class Main {
                     map[ny][nx] = '.';
                     p.y = my;
                     p.x = mx;
-
                     remove.isExist = false;
                     backTracking(pinCount-1, moveCount+1, level+1);
                     map[my][mx] = '.';
