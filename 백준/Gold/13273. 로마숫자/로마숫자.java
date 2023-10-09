@@ -1,33 +1,54 @@
 import java.io.*;
+import java.util.StringTokenizer;
 import java.util.*;
 
 public class Main {
 
     static Map <String, String> map;
-    static String [][] info = {
-            {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"},
-            {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"},
-            {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"},
-            {"", "M", "MM", "MMM"}
-    };
+    static String [] example = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = null;
+        StringBuilder sb = new StringBuilder();
 
         map = new HashMap<>();
 
-        for(int i=3999; i>=1; i--){
+        for(int i=1; i<=3999; i++){
+            int offset = 0;
             sb = new StringBuilder();
-            String number = String.valueOf(i);
-            int length = number.length();
-            for(int j = number.length(); j>=1; j--){
-                int index = Integer.parseInt(number.charAt(length-j)+"");
-                sb.append(info[j-1][index]);
+            String s1 = "";
+            String s2 = "";
+            String s3 = "";
+            int number = i;
+            String temp = "";
+            while(number!=0){
+                temp = example[number%10];
+                if(offset==1){
+                    for(int j = 0; j<temp.length(); j++) {
+                        if(temp.charAt(j)=='I')s1+='X';
+                        else if(temp.charAt(j)=='V')s1+='L';
+                        else s1+='C';
+                    }
+                }
+                else if(offset==2){
+                    for(int j = 0; j<temp.length(); j++) {
+                        if(temp.charAt(j)=='I')s2+='C';
+                        else if(temp.charAt(j)=='V')s2+='D';
+                        else s2+='M';
+                    }
+                }
+                else if(offset==3){
+                    for(int j = 0; j<temp.length(); j++) s3+='M';
+                }
+
+                offset++;
+                number/=10;
             }
+            sb.append(s3).append(s2).append(s1).append(example[i%10]);
             map.put(i+"", sb.toString());
             map.put(sb.toString(), i+"");
+
         }
 
         sb = new StringBuilder();
@@ -38,5 +59,6 @@ public class Main {
         bw.flush();
         bw.close();
         br.close();
+
     }
 }
