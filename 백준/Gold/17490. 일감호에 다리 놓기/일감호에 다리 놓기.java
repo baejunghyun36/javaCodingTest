@@ -19,7 +19,10 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         k = Long.parseLong(st.nextToken());
-
+        if(m<=1){
+            System.out.println("YES");
+            System.exit(0);
+        }
         minStoneOfArea = new HashMap<>();
         stoneOfPoint = new int[n];
         impossible = new int[n];
@@ -42,11 +45,8 @@ public class Main {
                 start = arr[1];
             }
         }
-        if(m>1){
-            solution(start);
-            output();
-        }
-        else sb.append("YES");
+        solution(start);
+        output();
 
         bw.write(sb.toString());
         bw.flush();
@@ -71,15 +71,8 @@ public class Main {
     static void output(){
 
         for (int key : minStoneOfArea.keySet()) stoneCount += minStoneOfArea.get(key);
-
         if(stoneCount<=k)sb.append("YES");
         else sb.append("NO");
     }
 
-    /*
-    *
-3 1 0
-1 1 1
-1 2
-    * */
 }
