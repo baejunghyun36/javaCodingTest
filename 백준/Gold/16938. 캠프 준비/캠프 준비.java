@@ -21,7 +21,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             list[i] = Integer.parseInt(st.nextToken());
         }
-        Arrays.sort(list);
+
         subset(0);
         sb.append(answer);
         bw.write(sb.toString());
@@ -44,7 +44,7 @@ public class Main {
                 maxNumber = Math.max(list[i], maxNumber);
             }
         }
-        
+
         if(l<=sum&&sum<=r&&maxNumber-minNumber>=x&&cnt>=2) answer++;
     }
 
@@ -54,7 +54,7 @@ public class Main {
             check();
             return;
         }
-        
+
         isSelected[index] = 1;
         subset(index + 1);
         isSelected[index] = 0;
