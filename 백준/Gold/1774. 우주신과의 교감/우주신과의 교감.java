@@ -7,9 +7,9 @@ public class Main {
     static int n, m;
     static double answer;
     static List<long[]> list;
-    static List<int[]> distInfo;
     static int [] parent;
     static PriorityQueue<Node> pq;
+    static int cnt;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -26,7 +26,7 @@ public class Main {
             int y = Integer.parseInt(st.nextToken());
             list.add(new long[]{y, x});
         }
-       init();
+        init();
 
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
@@ -36,7 +36,7 @@ public class Main {
             else union(b, a, 0);
         }
 
-        while (!pq.isEmpty()) {
+        while (!pq.isEmpty()&&cnt<n-1) {
             Node node = pq.poll();
             int a = node.from;
             int b = node.to;
@@ -76,6 +76,7 @@ public class Main {
         if(pa==pb) return;
         parent[pb] = pa;
         answer+= dist;
+        cnt++;
     }
 
     static class Node implements Comparable<Node>{
