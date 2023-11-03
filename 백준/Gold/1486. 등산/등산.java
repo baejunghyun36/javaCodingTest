@@ -9,7 +9,9 @@ public class Main {
     static int[] dy = {1, -1, 0, 0};
     static int answer;
     static ArrayList<int []> []list;
-    static int [][][][] floydArr;
+    static final int INF = 1000001;
+    static int [][][][] dist;
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,7 +23,7 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         threshold = Integer.parseInt(st.nextToken());
         darkTime = Integer.parseInt(st.nextToken());
-        floydArr = new int[m][n][m][n];
+
 
         map = new int[m][n];
         for (int i = 0; i < m; i++) {
@@ -31,50 +33,28 @@ public class Main {
                 else map[i][j] = s.charAt(j) - 'A';
             }
         }
-        floydArr = new int[m][n][m][n];
+        dist = new int[m][n][m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < m; k++) {
-                    Arrays.fill(floydArr[i][j][k], 1000001);
+                    Arrays.fill(dist[i][j][k], 1000001);
                 }
             }
         }
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                for (int k = 0; k < 4; k++) {
-                    int ny = dy[k] + i;
-                    int nx = dx[k] + j;
-                    if(ny<0||ny>=m||nx<0||nx>=n)continue;
-                    if(Math.abs(map[i][j]-map[ny][nx])>threshold)continue;
-                    if (map[i][j]>=map[ny][nx]) {
-                        floydArr[i][j][ny][nx] = 1;
-                    }
-                    else{
-                        floydArr[i][j][ny][nx] = (int)Math.pow(Math.abs(map[i][j] - map[ny][nx]), 2);
-                    }
+                dijk(i, j);
+            }
+        }
+        int maxHeight = -1;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dist[0][0][i][j] + dist[i][j][0][0] <= darkTime) {
+                    maxHeight = Math.max(maxHeight, map[i][j]);
                 }
             }
         }
 
-        int total = n*m;
-        for (int k = 0; k < total; k++) {
-            for (int i = 0; i < total; i++) {
-                for (int j = 0; j < total; j++) {
-                    if (find(i, j) > find(i, k) + find(k, j)) {
-                        update(i, j, k);
-                    }
-                }
-            }
-        }
-
-        int maxHeight = map[0][0];
-        for (int i = 0; i < total; i++) {
-            int y = i/n;
-            int x = i%n;
-            if(darkTime>=floydArr[y][x][0][0]+floydArr[0][0][y][x]){
-                maxHeight = Math.max(maxHeight, map[y][x]);
-            }
-        }
 
         sb.append(maxHeight);
 
@@ -84,30 +64,47 @@ public class Main {
         br.close();
     }
 
-//    static boolean check(int offset1, int offset2) {
-//        int y = offset1/n;
-//        int x = offset1%n;
-//        int yy = offset2/n;
-//        int xx = offset2%n;
-//        if(Math.abs(map[y][x]-map[yy][xx])>threshold)return false;
-//        return true;
-//    }
+    static void dijk(int y, int x) {
 
-    static void update(int offset1, int offset2, int offset3) {
-        int y = offset1/n;
-        int x = offset1%n;
-        int yy = offset2/n;
-        int xx = offset2%n;
-        int yyy = offset3/n;
-        int xxx = offset3%n;
-        floydArr[y][x][yy][xx] = floydArr[y][x][yyy][xxx] + floydArr[yyy][xxx][yy][xx];
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.add(new Node(y, x, 0));
+        dist[y][x][y][x] = 0;
+        int[][] visited = new int[m][n];
+        while (!pq.isEmpty()) {
+
+            Node cur = pq.poll();
+            if(visited[cur.y][cur.x]==1) continue;
+            visited[cur.y][cur.x] = 1;
+            for (int i = 0; i < 4; i++) {
+                int ny = cur.y + dy[i];
+                int nx = cur.x + dx[i];
+                if(ny<0||ny>=m||nx<0||nx>=n)continue;
+                if(Math.abs(map[ny][nx]-map[cur.y][cur.x])>threshold)continue;
+                int cost = 0;
+                if(map[cur.y][cur.x]>=map[ny][nx])cost = 1;
+                else cost = (int)Math.pow(Math.abs(map[cur.y][cur.x] - map[ny][nx]), 2);
+                if (dist[y][x][ny][nx] > cur.time + cost) {
+                    dist[y][x][ny][nx] = cur.time + cost;
+                    pq.add(new Node(ny, nx, dist[y][x][ny][nx]));
+                }
+            }
+        }
     }
 
-    static int find(int offset1, int offset2) {
-        int y = offset1/n;
-        int x = offset1%n;
-        int yy = offset2/n;
-        int xx = offset2%n;
-        return floydArr[y][x][yy][xx];
+    static class Node implements Comparable<Node>{
+        int y;
+        int x;
+        int time;
+
+        public Node(int y, int x, int time) {
+            this.y = y;
+            this.x = x;
+            this.time = time;
+        }
+
+        public int compareTo(Node node) {
+            return this.time - node.time;
+        }
     }
+
 }
