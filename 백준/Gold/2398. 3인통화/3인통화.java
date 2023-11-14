@@ -11,7 +11,7 @@ public class Main {
     static final int INF = 987654321;
     static int minCost = INF;
     static StringBuilder sb;
-    static ArrayList<Integer> [] reverseRoute;
+    static int [][] reverseRoute;
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -36,8 +36,7 @@ public class Main {
         for (int i = 0; i < 3; i++) startMap.put(Integer.parseInt(st.nextToken()), i);
         for (int key : startMap.keySet()) dijk(startMap.get(key), key);
 
-        RouteDijk(findCenterPoint());
-        reverseRouteSearch();
+        reverseRouteSearch(findCenterPoint());
         bw.write(sb.toString());
         bw.flush();
         bw.close();
@@ -59,15 +58,19 @@ public class Main {
         return point;
     }
 
-    static void reverseRouteSearch(){
+    static void reverseRouteSearch(int centerPoint){
+        
         Queue<Integer> q = new LinkedList<>();
         for (int key : startMap.keySet()) q.add(key);
+
         ArrayList<int[]> routeList = new ArrayList<>();
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            for (int i = 0; i < reverseRoute[cur].size(); i++) {
-                routeList.add(new int[]{cur, reverseRoute[cur].get(i)});
-                q.add(reverseRoute[cur].get(i));
+        for (int end : startMap.keySet()) {
+            int start = centerPoint;
+            int index = startMap.get(end);
+            while (end != start) {
+                int next = reverseRoute[index][start];
+                routeList.add(new int[]{start, next});
+                start = next;
             }
         }
         sb.append(minCost).append(" ").append(routeList.size()).append("\n");
@@ -76,31 +79,9 @@ public class Main {
         }
     }
 
-    static void RouteDijk(int start) {
-
-        int[] dist = new int[n + 1];
-        Arrays.fill(dist, INF);
-        dist[start] = 0;
-        visited = new int[n + 1];
-        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
-        pq.add(new Node(start, 0));
-        while (!pq.isEmpty()) {
-            Node cur = pq.poll();
-            if(visited[cur.vertex]==1)continue;
-            visited[cur.vertex]= 1;
-            for (int i = 0; i < list[cur.vertex].size(); i++) {
-                Node next = list[cur.vertex].get(i);
-                if (dist[next.vertex] > dist[cur.vertex] + next.cost) {
-                    reverseRoute[next.vertex] = new ArrayList<>();
-                    reverseRoute[next.vertex].add(cur.vertex);
-                    dist[next.vertex] = dist[cur.vertex] + next.cost;
-                    pq.add(new Node(next.vertex, dist[next.vertex]));
-                }
-            }
-        }
-    }
 
     static void dijk(int index, int start){
+        
         Arrays.fill(dist[index], INF);
         dist[index][start] = 0;
         visited = new int[n + 1];
@@ -114,6 +95,7 @@ public class Main {
                 Node next = list[cur.vertex].get(i);
                 if (dist[index][next.vertex] > dist[index][cur.vertex] + next.cost) {
                     dist[index][next.vertex] = dist[index][cur.vertex] + next.cost;
+                    reverseRoute[index][next.vertex] = cur.vertex;
                     pq.add(new Node(next.vertex, dist[index][next.vertex]));
                 }
             }
@@ -123,13 +105,10 @@ public class Main {
     static void init(){
         sb = new StringBuilder();
         list = new ArrayList[n + 1];
-        reverseRoute = new ArrayList[n + 1];
         dist = new int[3][n + 1];
+        reverseRoute = new int[3][n + 1];
         startMap = new HashMap<>();
-        for (int i = 1; i <= n; i++) {
-            list[i] = new ArrayList<>();
-            reverseRoute[i] = new ArrayList<>();
-        }
+        for (int i = 1; i <= n; i++) list[i] = new ArrayList<>();
     }
 
     static class Node {
@@ -141,5 +120,4 @@ public class Main {
             this.cost = cost;
         }
     }
-
 }
