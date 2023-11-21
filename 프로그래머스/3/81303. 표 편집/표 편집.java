@@ -45,7 +45,7 @@ class Solution {
             Node temp = stack.pop(); 
             numberOfNode[temp.number] = 1; 
         }
-   
+     
         for(int i=0; i<n; i++){
             if(numberOfNode[i]==1) sb.append('X'); 
             else sb.append('O'); 
