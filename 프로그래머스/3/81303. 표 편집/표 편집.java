@@ -1,99 +1,106 @@
 import java.util.*; 
 class Solution {
-    static Stack <Node> remove; 
-
-    static int n, k; 
-    static String [] cmd; 
+    
     static Node cur; 
     static Node [] list; 
-    public String solution(int nn, int kk, String[] c) {
-        String answer = "";
-        n = nn; 
-        k = kk; 
-        cmd = c; 
-        list = new Node[n]; 
-        remove = new Stack<>(); 
+    static int [] numberOfNode; 
+    static Node prev; 
+    static Stack <Node> stack; 
+    public String solution(int n, int k, String[] cmd) {
+        StringBuilder sb = new StringBuilder(); 
+        numberOfNode = new int[n];
+        stack = new Stack<>(); 
+        list = new Node[n];
         for(int i=0; i<n; i++){
             list[i] = new Node(i); 
-            if(i==n)cur = list[i]; 
         }
-        list[0].next = list[1]; 
-        list[n-1].prev = list[n-2]; 
+        list[0].right = list[1];  
         for(int i=1; i<n-1; i++){
-            list[i].prev = list[i-1]; 
-            list[i].next = list[i+1];
+            list[i].left = list[i-1]; 
+            list[i].right = list[i+1]; 
         }
-        cur = list[k]; 
-        
-        cmdCall(); 
-        char [] arr = new char[n]; 
-        Arrays.fill(arr, 'O'); 
-        while(!remove.isEmpty()){
-            arr[remove.pop().number]='X'; 
+        list[n-1].left = list[n-2]; 
+        cur = list[0]; 
+        for(int i=0; i<k; i++) cur = cur.right; 
+        for(int i=0; i<cmd.length; i++){
+            String [] c = cmd[i].split(" "); 
+            // System.out.println(cur.number+" "+c[0]); 
+            if(c[0].equals("D")){
+                int value = Integer.parseInt(c[1]); 
+                down(value); 
+            }
+            else if(c[0].equals("C")){
+                remove(); 
+            }
+            else if(c[0].equals("U")){
+                int value = Integer.parseInt(c[1]); 
+                up(value); 
+                
+            }
+            else if(c[0].equals("Z")){
+                rollback(); 
+            }
         }
-        StringBuilder sb = new StringBuilder(); 
+        while(!stack.isEmpty()){
+            Node temp = stack.pop(); 
+            numberOfNode[temp.number] = 1; 
+        }
+   
         for(int i=0; i<n; i++){
-            sb.append(arr[i]); 
-            // answer+=arr[i]; 
+            if(numberOfNode[i]==1) sb.append('X'); 
+            else sb.append('O'); 
         }
         return sb.toString();
     }
-
- 
- 
-    static void cmdCall(){
-        
-        // cmd.length
-        for(int i=0; i<cmd.length; i++){
-         
-            String s = cmd[i]; 
-            if(s.charAt(0)=='D'){
-                int move = Integer.parseInt(s.substring(2));
-                while(move-->0)cur = cur.next; 
-            }
-            else if(s.charAt(0)=='U'){
-                int move = Integer.parseInt(s.substring(2)); 
-               while(move-->0)cur = cur.prev; 
-            }
-            else if(s.charAt(0)=='C'){
-                // Node temp = new Node(cur.number); 
-                // temp.prev = cur.prev; 
-                // temp.next = cur.next; 
-                remove.add(cur);
-                
-                if(cur.prev!=null&&cur.next==null){
-                    cur.prev.next = null;
-                    cur = cur.prev; 
-                }
-                else if(cur.prev==null&&cur.next!=null){
-                    cur.next.prev = null; 
-                    cur = cur.next; 
-                }
-                else if(cur.prev!=null&&cur.next!=null){
-                    cur.prev.next = cur.next; 
-                    cur.next.prev = cur.prev;
-                    cur = cur.next;              
-                }
-
-         
-            }
-            else if(s.charAt(0)=='Z'){
-                Node node = remove.pop(); 
-                if(node.prev!=null) node.prev.next = node; 
-                if(node.next!=null) node.next.prev = node; 
-            }
+    static void up(int offset){
+        for(int i=0; i<offset; i++){
+            if(cur.left!=null) cur = cur.left; 
+        }
+    }
+    static void down(int offset){
+        for(int i=0; i<offset; i++){
+            if(cur.right!=null) cur = cur.right; 
         }
     }
     
-    static class Node {
-        int number; 
-        Node prev; 
-        Node next; 
+    static void remove(){
+        // prev = cur; 
+        stack.add(cur); 
         
+        Node left = cur.left; 
+        Node right = cur.right; 
+        
+        if(left==null) {
+            right.left = null; 
+            cur = right; 
+        }
+        else if(right == null){
+            left.right = null; 
+            cur = left; 
+        }
+        else {
+            left.right = right; 
+            right.left = left; 
+            cur = right; 
+        }
+    }
+    static void rollback(){
+      
+        Node node = stack.pop(); 
+        Node left = node.left; 
+        Node right = node.right; 
+        if(left!=null)left.right = node; 
+        if(right!=null) right.left = node; 
+    }
+    
+    static class Node {
+        
+        int number; 
+        Node left; 
+        Node right; 
         public Node (int number){
             this.number = number; 
         }
         
     }
-    
 }
