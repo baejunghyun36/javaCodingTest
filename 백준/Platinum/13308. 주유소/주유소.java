@@ -10,8 +10,8 @@ public class Main {
     static List<Node> [] list;
     static int [] cost;
     static int [] payOil;
-    static final int INF = 987654321;
-    static int [][] dp;
+    static final long INF = 98765432198798l;
+    static long [][] dp;
     static int minVertex, minPayOil, costToMinVertex;
 
     public static void main(String[] args) throws IOException {
@@ -23,12 +23,9 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         payOil = new int[n + 1];
-        minPayOil = INF;
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            payOil[i + 1] = Integer.parseInt(st.nextToken());
-            if(i!=n-1)minPayOil = Math.min(minPayOil, payOil[i + 1]);
-        }
+        for (int i = 0; i < n; i++) payOil[i + 1] = Integer.parseInt(st.nextToken());
+
 
         list = new ArrayList[n + 1];
         for (int i = 1; i <= n; i++) list[i] = new ArrayList<>();
@@ -37,10 +34,10 @@ public class Main {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
-            list[a].add(new Node(b, 0, c, INF));
-            list[b].add(new Node(a, 0, c, INF));
+            list[a].add(new Node(b, 0, c, 2500));
+            list[b].add(new Node(a, 0, c, 2500));
         }
-        dp = new int[2501][n + 1];
+        dp = new long[2501][n + 1];
         for (int i = 0; i <= 2500; i++) Arrays.fill(dp[i], INF);
         dp[0][1] = 0;
         pq.add(new Node(1, 0, 0, payOil[1]));
@@ -53,7 +50,7 @@ public class Main {
     }
 
 
-    static int dijk(){
+    static long dijk(){
 
         while (!pq.isEmpty()) {
             Node cur = pq.poll();
@@ -71,7 +68,7 @@ public class Main {
                 }
             }
         }
-        int cost = INF;
+        long cost = INF;
         for(int i=0; i<=2500; i++){
             cost = Math.min(dp[i][n], cost);
         }
