@@ -85,7 +85,6 @@ public class Main {
                 minNumber = mid;
                 h = mid-1;
             }
-            else if(group < m) h = mid -1;
         }
     }
 }
