@@ -29,37 +29,39 @@ public class Main {
         bw.close();
         br.close();
     }
+
+    static boolean isFailCheck(int number){
+        for (int i = 0; i < n; i++) {
+            if(number<info[i]) return true;
+        }
+        return false;
+    }
+
+
     static void binarySearch(){
         int l = 1;
-        int h = 2000000000;
-
+        int h = 30000;
         while (l <= h) {
             int mid = (l+h)/2;
+            if(isFailCheck(mid)){
+                l = mid+1;
+                continue;
+            }
             int sum = 0;
             int cnt = 0;
             ArrayList<Integer> temp = new ArrayList<>();
-            boolean flag = false;
             int group = 1;
             boolean chk = false;
-            out:for (int i = 0; i < n; i++) {
-                if(info[i] > mid) {
-                    flag = true;
-                    break;
-                }
+            for (int i = 0; i < n; i++) {
                 if (n - i == m - group) {
                     temp.add(cnt);
                     for (int j = i; j < n; j++) {
-                        if(info[j] > mid) {
-                            flag = true;
-                            break out;
-                        }
                         temp.add(1);
                     }
                     group = m;
                     chk = true;
                     break;
                 }
-
                 if(sum+info[i]<=mid){
                     sum+=info[i];
                     cnt++;
@@ -71,7 +73,12 @@ public class Main {
                     cnt = 1;
                 }
             }
-            if(flag||group > m) {l = mid+1; continue;}
+
+            if(group > m) {
+                l = mid+1;
+                continue;
+            }
+
             if(!chk)temp.add(cnt);
             if(group==m){
                 for (int i = 0; i < m; i++) answer[i] = temp.get(i);
