@@ -12,12 +12,14 @@ public class Main {
     static int[] dy = {1, -1, 0, 0};
     static int [][] loc;
     static int [][] visited;
+    static int [] start;
     static int answer = 987654321;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
         map = new char[5][5];
+        start = new int[2];
         for (int i = 0; i < 5; i++) {
             map[i] = br.readLine().toCharArray();
         }
@@ -38,7 +40,7 @@ public class Main {
         for (int i = 0; i < 5; i++) {
             Arrays.fill(temp[i], -1);
         }
-        backTracking(0);
+        backTracking(0, 0);
         sb.append(answer);
 
         bw.write(sb.toString());
@@ -46,11 +48,11 @@ public class Main {
         bw.close();
         br.close();
     }
-    static void chk(){
+    static void chk(int dist){
         Queue<int[]> q = new LinkedList<>();
-        q.add(new int [] {loc[0][0], loc[0][1]});
+        q.add(new int [] {start[0], start[1]});
         for (int i = 0; i < 5; i++) Arrays.fill(visited[i], 0);
-        visited[loc[0][0]][loc[0][1]] = 1;
+        visited[start[0]][start[1]] = 1;
         int cnt = 1;
         while (!q.isEmpty()) {
             int [] yx = q.poll();
@@ -59,6 +61,7 @@ public class Main {
                 int ny = dy[i] + yx[0];
                 if(ny<0||ny>=5||nx<0||nx>=5)continue;
                 if(visited[ny][nx]==1||temp[ny][nx]==-1)continue;
+
                 visited[ny][nx] = 1;
                 cnt++;
                 q.add(new int[]{ny, nx});
@@ -66,18 +69,14 @@ public class Main {
         }
 
         if (cnt == n) {
-            int dist = 0;
-            for (int i = 0; i < n; i++) {
-                int[] info = idToLoc.get(i);
-                dist += Math.abs(info[0] - loc[i][0]) + Math.abs(info[1] - loc[i][1]);
-            }
             answer = Math.min(answer, dist);
         }
     }
 
-    static void backTracking (int cur){
+    static void backTracking (int cur, int dist){
+        if(answer<=dist)return;
         if(cur==n){
-            chk();
+            chk(dist);
             return;
         }
 
@@ -85,9 +84,11 @@ public class Main {
             for (int j = 0; j < 5; j++) {
                 if(temp[i][j]!=-1)continue;
                 temp[i][j] = cur;
-                loc[cur][0] = i;
-                loc[cur][1] = j;
-                backTracking(cur+1);
+                start[0] = i;
+                start[1] = j;
+                int[] info = idToLoc.get(cur);
+                int d = Math.abs(info[0] - i) + Math.abs(info[1] - j);
+                backTracking(cur+1, dist+d);
                 temp[i][j] = -1;
             }
         }
