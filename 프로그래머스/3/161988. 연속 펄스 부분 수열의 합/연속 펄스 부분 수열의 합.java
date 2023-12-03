@@ -28,14 +28,7 @@ class Solution {
                 minIdx = i; 
             }
         }
-        if(minIdx <= maxIdx) answer = Math.max(answer, Math.max(accum[maxIdx] - accum[minIdx], accum[maxIdx]));    
-        else answer = Math.max(answer, accum[maxIdx]); 
-    
-        // -2 3 6 1 -3 -1 -2 4
-        // -2 1 7 8  5  4  2 6
-        
-        //0 1 2 1 -1 2 2 2  2  2
-        //0 1 3 4  3 5 7 9 11 12
+        answer = Math.max(answer, Math.max(accum[maxIdx] - accum[minIdx], accum[maxIdx]));    
 
     }
 }
